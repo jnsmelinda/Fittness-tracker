@@ -18,7 +18,13 @@ app.get("/api/workouts", (req, res) => {
     db.Workout.find({})
         .then(workouts => res.json(workouts.map(enhanceWithTotalDuration)))
         .catch(err => res.json(err));
-})
+});
+
+app.post("/api/workouts", (req, res) => {
+    db.Workout.create({ day: new Date() })
+        .then(workouts => res.json(workouts))
+        .catch(err => res.status(400).json(err));
+});
 
 function enhanceWithTotalDuration(workout) {
     workout = workout.toJSON();
@@ -32,6 +38,5 @@ function enhanceWithTotalDuration(workout) {
 }
 
 app.get("/exercise", (req, res) => res.sendFile(path.join(__dirname, "public/exercise.html")));
-app.get("*", (req, res) => res.sendFile(path.join(__dirname, "public/index.html")));
 
 app.listen(PORT, () => console.log("App listening on PORT: " + PORT));
