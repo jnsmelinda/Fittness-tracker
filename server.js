@@ -43,6 +43,12 @@ function enhanceWithTotalDuration(workout) {
     return workout;
 }
 
+app.get("/api/workouts/range", (req, res) => {
+    db.Workout.find({})
+        .then(workouts => res.json(workouts))
+        .catch(err => res.json(err));
+});
+
 app.get("/exercise", (req, res) => res.sendFile(path.join(__dirname, "public/exercise.html")));
 app.get("/stats", (req, res) => res.sendFile(path.join(__dirname, "public/stats.html")));
 
