@@ -26,6 +26,12 @@ app.post("/api/workouts", (req, res) => {
         .catch(err => res.status(400).json(err));
 });
 
+app.put("/api/workouts/:id", (req, res) => {
+    db.Workout.findOneAndUpdate({_id: req.params.id}, { $push: { exercises: req.body  }}, { new: true })
+        .then(workouts => res.json(workouts))
+        .catch(err => res.status(400).json(err))
+});
+
 function enhanceWithTotalDuration(workout) {
     workout = workout.toJSON();
     let totalDuration = 0;
