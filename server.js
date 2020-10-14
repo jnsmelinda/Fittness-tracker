@@ -16,9 +16,20 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { use
 
 app.get("/api/workouts", (req, res) => {
     db.Workout.find({})
-        .then(workouts => res.json(workouts)) //Total Workout Duration: undefined needs to be fixed
+        .then(workouts => res.json(workouts.map(enhanceWithTotalDuration)))
         .catch(err => res.json(err));
 })
+
+function enhanceWithTotalDuration(workout) {
+    workout = workout.toJSON();
+    let totalDuration = 0;
+    for (let i = 0; i < workout.exercises.length; i++) {
+        totalDuration += workout.exercises[i].duration;
+    }
+    workout.totalDuration = totalDuration;
+
+    return workout;
+}
 
 app.get("/exercise", (req, res) => res.sendFile(path.join(__dirname, "public/exercise.html")));
 app.get("*", (req, res) => res.sendFile(path.join(__dirname, "public/index.html")));
