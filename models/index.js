@@ -4,7 +4,7 @@ const workoutSchema = new mongoose.Schema({
     day: Date,
     exercises: [{
         name: String,
-        type: { type: String },
+        type: {type: String},
         weight: Number,
         sets: Number,
         reps: Number,
@@ -13,4 +13,4 @@ const workoutSchema = new mongoose.Schema({
     }]
 });
 
-module.exports = { Workout: mongoose.model("Workout", workoutSchema) };
+module.exports = {Workout: mongoose.model("Workout", workoutSchema)};
